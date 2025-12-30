@@ -9,34 +9,27 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
-
     steps:
-    
-      name: Checkout código
-      uses: actions/checkout@v3
-      
-          
-      name: Configurar Go
-      uses: actions/setup-go@v4
-      with:
-            go-version: '1.21'
-      
-          
-      name: Verificar dependências
-      run: |
-            go mod download
-            go mod verify
-      
-          
-      name: Executar testes
-      run: go test ./... -v
-      
-          
-      name: Compilar aplicação
-      run: go build -o go-notes-app .
-      
-          
-      name: Verificar binário
-      run: |
-            file go-notes-app
-            ls -la go-notes-app
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Verificar dependências
+        run: |
+          go mod download
+          go mod verify
+
+      - name: Executar testes
+        run: go test ./... -v
+
+      - name: Compilar aplicação
+        run: go build -o go-notes-app .
+
+      - name: Verificar binário
+        run: |
+          file go-notes-app
+          ls -la go-notes-app
