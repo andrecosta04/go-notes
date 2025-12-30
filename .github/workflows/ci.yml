@@ -18,6 +18,10 @@ jobs:
         with:
           go-version: '1.21'
 
+      - name: Preparar módulos
+        run: |
+          go mod tidy
+
       - name: Verificar dependências
         run: |
           go mod download
