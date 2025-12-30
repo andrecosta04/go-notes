@@ -1,0 +1,33 @@
+name: Continuous Deployment
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types:
+    
+      completed
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+    
+      name: Checkout código
+      uses: actions/checkout@v3,
+
+
+      name: Deploy para servidor
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+            host: ${{ secrets.SERVER_HOST }}
+            username: ${{ secrets.SERVER_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+              cd ${{ secrets.APP_PATH }}./deploy.sh
+      name: Verificar deployment
+      run: |
+        echo "Deployment concluído em $(date)"
+        echo "Aplicação disponível em: http://${{/ secrets.SERVER_HOST }}/app/"
